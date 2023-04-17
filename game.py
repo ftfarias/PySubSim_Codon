@@ -25,7 +25,6 @@ class World(object):
         self.MAX_SPEED = 36.0  # Knots or nautical mile per hour
         # acceleration in knots/hour^2 -> imax acceleration 2 Knots / second^2
         self.MAX_ACCELERATION = 0.1 * 3600
-        self.DRAG_FACTOR = 1.0 * self.MAX_ACCELERATION / (self.MAX_SPEED ** 2)
 
         # turbines 35,000 hp (26 MW), 1 auxiliary motor 325 hp (242 kW)
         self.turbine_level = 50.0  # from -100% to +100%
@@ -56,14 +55,11 @@ class World(object):
         if self.rudder != 0:
             # diff is the difference between the angle the sub is mov ing and the angle of the ship is bearing
             # meaning the ship the turning left or right
-            diff = (self.rudder * 60 * time_elapsed_in_hours * self.speed_length)
+            diff = (self.rudder * time_elapsed_in_hours * self.speed_length)
             self.acceleration_angle = self.ship_bearing - diff
-            self.drag_factor = self.DRAG_FACTOR
-            # * \ (1 + abs(500 * math.sin(diff)))
             self.ship_bearing += diff
         else:
             self.acceleration_angle = self.ship_bearing
-            self.drag_factor = self.DRAG_FACTOR
 
         #     diff = self.course - world.ship_bearing
 
